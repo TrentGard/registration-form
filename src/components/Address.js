@@ -1,52 +1,62 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
-function Address(props) {
+function Address(props, errors) {
   return (
-    <>
-      <Form.Group>
-        <Form.Label>
-          Address 1:{" "}
+    <Form.Group>
+      <Row>
+        <Col>
+          <Form.Label>Address 1: </Form.Label>
           <Form.Control
-            type="text"
             name="address1"
+            id="address1"
             onChange={props.handleChange}
-            value={props.address1}
+            value={props.values.address1}
+            isValid={!props.errors.address1 && props.touched.address1}
+            isInvalid={props.errors.address1 && props.touched.address1}
           />
-          {props.validator.message("Address", props.address1, "required")}
-        </Form.Label>
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>
-          Address 2:{" "}
+          {props.errors.address1 && props.touched.address1 ? (
+            <div>{props.errors.address1}</div>
+          ) : null}
+        </Col>
+        <Col>
+          <Form.Label>Address 2: </Form.Label>
           <Form.Control
-            type="text"
             name="address2"
+            id="address2"
             onChange={props.handleChange}
-            value={props.address2}
+            value={props.values.address2}
           />
-          {props.validator.message("", props.address1, "required|max:50")}
-        </Form.Label>
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>
-          City:{" "}
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Form.Label>City: </Form.Label>
           <Form.Control
             type="text"
             name="city"
+            id="city"
             onChange={props.handleChange}
-            value={props.city}
+            value={props.values.city}
+            isValid={!props.errors.city && props.touched.city}
+            isInvalid={props.errors.city && props.touched.city}
           />
-          {props.validator.message("City", props.city, "required|alpha_space")}
-        </Form.Label>
-        <Form.Label>
-          State:{" "}
+          {props.errors.city && props.touched.city ? (
+            <div>{props.errors.city}</div>
+          ) : null}
+        </Col>
+        <Col>
+          <Form.Label>State: </Form.Label>
           <Form.Control
             as="select"
-            type="text"
             name="state"
+            id="state"
             onChange={props.handleChange}
-            value={props.state}
+            value={props.values.state}
+            isValid={!props.errors.state && props.touched.state}
+            isInvalid={props.errors.state && props.touched.state}
           >
             <option value="" />
             <option value="AL">Alabama</option>
@@ -101,23 +111,27 @@ function Address(props) {
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
           </Form.Control>
-          {props.validator.message("State", props.state, "required|alpha")}
-        </Form.Label>
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>
-          Zip:{" "}
+          {props.errors.state && props.touched.state ? (
+            <div>{props.errors.state}</div>
+          ) : null}
+        </Col>
+        <Col>
+          <Form.Label>Zip: </Form.Label>
           <Form.Control
             type="number"
             name="zip"
-            max="99999"
-            value={props.zip}
+            id="zip"
+            value={props.values.zip}
             onChange={props.handleChange}
+            isValid={!props.errors.zip && props.touched.zip}
+            isInvalid={props.errors.zip && props.touched.zip}
           />
-          {props.validator.message("Zip", props.zip, "required|numeric")}
-        </Form.Label>
-      </Form.Group>
-    </>
+          {props.errors.zip && props.touched.zip ? (
+            <div>{props.errors.zip}</div>
+          ) : null}
+        </Col>
+      </Row>
+    </Form.Group>
   );
 }
 

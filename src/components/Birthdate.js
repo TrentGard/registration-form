@@ -1,14 +1,16 @@
 import React from "react";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import "react-datepicker/dist/react-datepicker.css";
 
 function Birthdate(props) {
   return (
     <Form.Group>
-      <Form.Label>
-        Date of Birth:
-        <Form.Row>
+      <Row>
+        <Col>
+          <Form.Label>Date of Birth: </Form.Label>{" "}
           <DatePicker
             className="form-control"
             selected={props.birthdate}
@@ -17,9 +19,14 @@ function Birthdate(props) {
             showMonthDropdown
             showYearDropdown
             dropdownMode="select"
+            touched={props.touched}
+            value={props.values.birthdate}
           />
-        </Form.Row>
-      </Form.Label>
+          {props.errors.birthdate && props.touched.birthdate ? (
+            <div>{props.errors.birthdate}</div>
+          ) : null}
+        </Col>
+      </Row>
     </Form.Group>
   );
 }

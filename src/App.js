@@ -4,9 +4,31 @@ import Name from "./components/Name";
 import Birthdate from "./components/Birthdate";
 import Address from "./components/Address";
 import Sex from "./components/Sex";
-import SimpleReactValidator from "simple-react-validator";
+import * as formik from "formik";
+import * as Yup from "yup";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+
+const { Formik, Field } = formik;
+
+const schema = Yup.object({
+  firstName: Yup.string()
+    .min(2, "Must be between 2 and 50 characters!")
+    .max(50, "Must be between 2 and 50 characters!")
+    .required("First Name is required!"),
+  middleInitial: Yup.string()
+    .required()
+    .max(1, "Must be 1 character!"),
+  lastName: Yup.string()
+    .min(2, "Must be between 2 and 50 characters!")
+    .max(50, "Must be between 2 and 50 characters!")
+    .required("Last Name is required!"),
+  address1: Yup.string().required("Address 1 is required!"),
+  birthdate: Yup.string().required("Date of Birth is required!"),
+  city: Yup.string().required("City is required!"),
+  state: Yup.string().required("State is required!"),
+  zip: Yup.string().required("Zip Code is required!")
+});
 
 const initialState = {
   firstName: "",
@@ -22,68 +44,63 @@ const initialState = {
 };
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = initialState;
-    this.validate = new SimpleReactValidator({ autoForceUpdate: this });
-  }
-
-  handleChange = e => {
-    const { value, name } = e.target;
-    if (name === "zip" && value.length > 5) return;
-    this.setState({
-      [name]: value
-    });
-  };
+  state = initialState;
 
   handleBirthdateChange = birthdate => {
     this.setState({ birthdate });
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-    if (this.validate.allValid()) {
-      console.log(this.state);
-      this.setState(initialState);
-      this.validate.hideMessages();
-    } else {
-      this.validate.showMessages();
-    }
-  };
-
   render() {
     return (
-      <Form onSubmit={this.handleSubmit} className="App">
-        <h2>Registration Form</h2>
-        <Name
-          handleChange={this.handleChange}
-          validator={this.validate}
-          firstName={this.state.firstName}
-          middleInitial={this.state.middleInitial}
-          lastName={this.state.lastName}
-        />
-        <Birthdate
-          birthdate={this.state.birthdate}
-          handleChange={this.handleBirthdateChange}
-        />
-        <Address
-          handleChange={this.handleChange}
-          validator={this.validate}
-          zip={this.state.zip}
-          address1={this.state.address1}
-          address2={this.state.address2}
-          city={this.state.city}
-          state={this.state.state}
-        />
-        <Sex
-          handleChange={this.handleChange}
-          validator={this.validate}
-          gender={this.state.gender}
-        />
-        <Button type="submit" value="submit">
-          Submit
-        </Button>
-      </Form>
+      <Formik
+        validationSchema={schema}
+        onSubmit={console.log}
+        initialValues={{
+          firstName: "",
+          middleInitial: "",
+          lastName: "",
+          birthdate: new Date(),
+          address1: "",
+          address2: "",
+          city: "",
+          state: "",
+          zip: "",
+          gender: ""
+        }}
+      >
+        {({ handleSubmit, handleChange, values, isValid, errors, touched }) => (
+          <Form onSubmit={handleSubmit}>
+            <h2>Registration Form</h2>
+            <Name
+              errors={errors}
+              handleChange={handleChange}
+              values={values}
+              touched={touched}
+            />
+            <Birthdate
+              errors={errors}
+              values={values}
+              handleChange={this.handleBirthdateChange}
+              touched={touched}
+            />
+            <Address
+              handleChange={handleChange}
+              values={values}
+              touched={touched}
+              errors={errors}
+            />
+            <Sex
+              handleChange={handleChange}
+              values={values}
+              errors={errors}
+              touched={touched}
+            />
+            <Button type="submit" value="submit">
+              Submit
+            </Button>
+          </Form>
+        )}
+      </Formik>
     );
   }
 }
