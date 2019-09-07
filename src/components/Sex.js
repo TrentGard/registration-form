@@ -8,7 +8,7 @@ function Sex(props) {
     <Form.Group>
       <Row>
         <Col>
-          <Form.Label>Male: </Form.Label>
+          <Form.Label>Male:</Form.Label>{" "}
           <Form.Check
             inline
             type="radio"
@@ -18,7 +18,7 @@ function Sex(props) {
           />
         </Col>
         <Col>
-          <Form.Label>Female: </Form.Label>
+          <Form.Label>Female:</Form.Label>{" "}
           <Form.Check
             inline
             type="radio"
@@ -28,7 +28,7 @@ function Sex(props) {
           />
         </Col>
         <Col>
-          <Form.Label>Other: </Form.Label>
+          <Form.Label>Other:</Form.Label>{" "}
           <Form.Check
             inline
             type="radio"

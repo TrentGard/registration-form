@@ -17,14 +17,13 @@ const schema = Yup.object({
     .max(50, "Must be between 2 and 50 characters!")
     .required("First Name is required!"),
   middleInitial: Yup.string()
-    .required()
     .max(1, "Must be 1 character!"),
   lastName: Yup.string()
     .min(2, "Must be between 2 and 50 characters!")
     .max(50, "Must be between 2 and 50 characters!")
     .required("Last Name is required!"),
   address1: Yup.string().required("Address 1 is required!"),
-  birthdate: Yup.string().required("Date of Birth is required!"),
+  birthdate: Yup.date().required(new Date(), "Date of Birth is required!"),
   city: Yup.string().required("City is required!"),
   state: Yup.string().required("State is required!"),
   zip: Yup.string().required("Zip Code is required!")
@@ -34,7 +33,7 @@ const initialState = {
   firstName: "",
   middleInitial: "",
   lastName: "",
-  birthdate: new Date(),
+  birthdate: "",
   address1: "",
   address2: "",
   city: "",
@@ -71,6 +70,9 @@ class App extends Component {
         {({ handleSubmit, handleChange, values, isValid, errors, touched }) => (
           <Form onSubmit={handleSubmit}>
             <h2>Registration Form</h2>
+            <small>Check the console for the data after submission.</small>
+            <br />
+            <br />
             <Name
               errors={errors}
               handleChange={handleChange}
@@ -82,6 +84,7 @@ class App extends Component {
               values={values}
               handleChange={this.handleBirthdateChange}
               touched={touched}
+              birthdate={this.state.birthdate}
             />
             <Address
               handleChange={handleChange}

@@ -13,6 +13,8 @@ function Birthdate(props) {
           <Form.Label>Date of Birth: </Form.Label>{" "}
           <DatePicker
             className="form-control"
+            id="birthdate"
+            name="birthdate"
             selected={props.birthdate}
             onChange={props.handleChange}
             peekNextMonth
@@ -21,6 +23,8 @@ function Birthdate(props) {
             dropdownMode="select"
             touched={props.touched}
             value={props.values.birthdate}
+            isValid={!props.errors.birthdate && props.touched.birthdate}
+            isInvalid={props.errors.birthdate && props.touched.birthdate}
           />
           {props.errors.birthdate && props.touched.birthdate ? (
             <div>{props.errors.birthdate}</div>
